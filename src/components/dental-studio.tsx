@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, MotionConfig, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ArrowUpRight, CalendarDays, Check, ChevronDown, CircleCheck, Clock3, Crosshair, Gem, Layers3, Leaf, Mail, MapPin, Menu, MessageCircle, Microscope, MoveUpRight, Phone, Plus, ScanLine, ShieldCheck, Sparkles, Star, X } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Keyboard, Pagination } from "swiper/modules";
@@ -11,6 +11,7 @@ import { clinic, faqs, navigation, reviews, services } from "@/lib/clinic";
 import { ArrowLink, Brand, Eyebrow, Modal, Reveal, ToothMark } from "./ui";
 import Gallery from "./gallery";
 import AppointmentForm from "./appointment-form";
+import HeroDentalVisual from "./hero-dental-visual";
 
 const benefits = [
   { icon: ScanLine, title: "Advanced Technology", text: "Thoughtful tools for a clearer picture of your dental health." },
@@ -54,19 +55,11 @@ function Navigation() {
 }
 
 function Hero() {
-  const visual = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  const pointer = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (reduced || e.pointerType !== "mouse" || !visual.current) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    visual.current.style.setProperty("--pointer-x", ((e.clientX - r.left) / r.width - 0.5) * 12 + "px");
-    visual.current.style.setProperty("--pointer-y", ((e.clientY - r.top) / r.height - 0.5) * 12 + "px");
-  };
-  return <section id="home" className="hero" onPointerMove={pointer} onPointerLeave={() => { visual.current?.style.setProperty("--pointer-x", "0px"); visual.current?.style.setProperty("--pointer-y", "0px"); }}>
+  return <section id="home" className="hero">
     <div className="hero-wash" aria-hidden="true" />
     <div className="container hero-grid">
       <div className="hero-copy"><motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}><Eyebrow>THE FUTURE OF DENTAL CARE</Eyebrow></motion.div><h1>{["Elevating", "Every Smile", "With Modern", "Dentistry."].map((line, i) => <motion.span className={i === 1 ? "accent" : ""} key={line} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 + i * 0.11 }}>{line}{i === 1 && <svg className="headline-swoosh" viewBox="0 0 350 15" aria-hidden="true"><path d="M3 9C92 0 232 0 346 9M55 13C149 4 271 5 319 10" /></svg>}</motion.span>)}</h1><motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.7 }}><p className="hero-description">Discover a new standard of dental care with advanced technology, personalized treatments, and a commitment to your comfort and confidence.</p><div className="hero-actions"><a href="#contact" className="button primary">Book Your Appointment<ArrowUpRight size={18} /></a><a href="#services" className="button secondary">Explore Our Services<ArrowRight size={17} /></a></div><div className="hero-trust"><span><ShieldCheck />Advanced Technology</span><span><Sparkles />Personalized Care</span><span><ToothMark />Modern Treatments</span></div></motion.div></div>
-      <div className="hero-art" ref={visual}><div className="hero-orb" aria-hidden="true" /><div className="orbit orbit-one" aria-hidden="true"><span /></div><div className="orbit orbit-two" aria-hidden="true" /><span className="tiny-orbit" aria-hidden="true" /><span className="hero-cross cross-one" aria-hidden="true">+</span><span className="hero-cross cross-two" aria-hidden="true">+</span><div className="hero-tooth-wrap"><Image className="hero-tooth" src="/images/tooth.webp" alt="Oversized floating white enamel molar with soft teal reflections — 3D dental model" width={1280} height={1280} priority sizes="(max-width: 700px) 90vw, 590px" /></div><div className="tooth-shadow" aria-hidden="true" /><div className="precision-card"><span className="precision-icon"><Crosshair size={24} /></span><div><strong>Precision Dental Care</strong><span>Thoughtfully designed around you</span></div><CircleCheck size={17} /></div><div className="implant-float" aria-hidden="true"><span className="implant-orbit" /><Image src="/images/implant.webp" alt="" width={100} height={150} /></div><div className="art-caption"><span className="status-dot" /> THE ART OF CARE. THE SCIENCE OF PRECISION.</div></div>
+      <HeroDentalVisual />
     </div>
     <div className="container hero-bottom"><span><MapPin size={14} /> AHMEDABAD, GUJARAT</span><a href="#about">A better dental experience, by design <ArrowDown size={15} /></a><span className="hero-edition">THE LUMIÈRE APPROACH — 01</span></div>
   </section>;
